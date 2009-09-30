@@ -2,7 +2,7 @@ public class Strategy
 {
 
   private static int[][][] move_weighting = new int[3][5][3];
-  public static int MakeMove()
+  public static String MakeMove()
   {
     int num_moves = Helper.NumPastMoves();
     if (num_moves <= 0) 
@@ -14,7 +14,7 @@ public class Strategy
     int turn_weighting[] = move_weighting[past_move][num_moves % 5];
     int next_turn = Math.max(Math.max(turn_weighting[0], turn_weighting[1]), 
                              turn_weighting[2]);
-    next_turn = (next_turn == turn_weighting[0]) ? 0:(next_turn == turn_weighting[1]) ? 1:2;
+    String next = (next_turn == turn_weighting[0]) ? "rock":(next_turn == turn_weighting[1]) ? "paper":"scissors";
     return next_turn;
 
 		// Just return rock, no matter what.
