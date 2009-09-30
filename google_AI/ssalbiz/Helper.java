@@ -32,9 +32,37 @@ public class Helper
 	{
 		try
 		{
-			InputStreamReader converter = new InputStreamReader(System.in);
+			/*InputStreamReader converter = new InputStreamReader(System.in);
 			BufferedReader in = new BufferedReader(converter);
-			return in.readLine();
+			return in.readLine();*/
+			
+			InputStream input = System.in;
+			String line = "";
+			int c;
+			
+			while (true)
+			{
+				if (input.available() > 0)
+				{
+					c = input.read();
+					if (c != -1)
+					{
+						if ((char)c == '\r')
+						{
+							continue;
+						}
+						else if ((char)c == '\n')
+						{
+							break;
+						}
+						line += (char)c;
+					}
+				}
+				
+				Thread.sleep(10);
+			}
+			
+			return line;
 		} catch (Exception e)
 		{
 			return null;
@@ -46,13 +74,16 @@ public class Helper
 		while (true)
 		{
 			String message = WaitForMessage();
+			//System.err.println("Received message: " + message);
 			
 			if (message.startsWith("go"))
 			{
+				//System.err.println("Received go message.");
 				return true;
 			}
 			else if (message.startsWith("outcome"))
 			{
+				//System.err.println("Received outcome message.");
 				try
 				{
 					String[] fields = message.split(" ");
@@ -91,11 +122,12 @@ public class Helper
 				}
 				catch (Exception e)
 				{
-					// do nothing
+					//System.err.println("Exception encountered while parsing outcome message: " + e);
 				}
 			}
 			else
 			{
+				//System.err.println("Unknown message type.");
 				return false;
 			}
 		}
@@ -153,6 +185,11 @@ public class Helper
 	
 	public static void Move(int move)
 	{
+	        if (move > 2 && move < 0) {
+		  System.out.println(0);
+		  System.out.flush();
+		  return;
+		}
 		System.out.println(move);
 		System.out.flush();
 	}
